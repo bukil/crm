@@ -62,7 +62,23 @@ export const FileProvider = ({ children }) => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem('superagi_files', JSON.stringify(files));
+        try {
+            localStorage.setItem('superagi_files', JSON.stringify(files));
+        } catch (e) {
+            if (e.name === 'QuotaExceededError') {
+                console.warn('LocalStorage quota exceeded. Saving files without content.');
+                // Create a copy of files where large 'content' fields are removed/truncated
+                const lightweightFiles = files.map(f => ({
+                    ...f,
+                    content: f.content && f.content.length > 100000 ? null : f.content
+                }));
+                try {
+                    localStorage.setItem('superagi_files', JSON.stringify(lightweightFiles));
+                } catch (retryError) {
+                    console.error('Failed to save even lightweight files to localStorage', retryError);
+                }
+            }
+        }
     }, [files]);
 
     const addFile = (fileObj, metadata) => {

@@ -83,8 +83,17 @@ const ExternalViewer = () => {
                         overflow: 'hidden',
                         position: 'relative'
                     }}>
-                        {['image', 'jpg', 'png', 'jpeg', 'gif'].includes(file.type) && file.content ? (
-                            <img src={file.content} alt={file.title} style={{ maxWidth: '100%', maxHeight: '500px', objectFit: 'contain' }} />
+                        {['image', 'jpg', 'png', 'jpeg', 'gif'].includes(file.type) ? (
+                            file.content ? (
+                                <img src={file.content} alt={file.title} style={{ maxWidth: '100%', maxHeight: '500px', objectFit: 'contain' }} />
+                            ) : (
+                                <Box sx={{ textAlign: 'center', p: 3 }}>
+                                    <ErrorIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 1, opacity: 0.5 }} />
+                                    <Typography color="text.secondary">
+                                        Preview not available (Content not stored).
+                                    </Typography>
+                                </Box>
+                            )
                         ) : (
                             <Box sx={{ textAlign: 'center' }}>
                                 <Typography color="text.secondary" gutterBottom>
