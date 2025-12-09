@@ -88,6 +88,7 @@ export const FileProvider = ({ children }) => {
                 tags: metadata.tags,
                 folder: 'Unsorted',
                 version: 'v1.0',
+                expiryDate: metadata.expiryDate,
                 content: content // DataURL
             };
 

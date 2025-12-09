@@ -53,8 +53,8 @@ const MainLayout = () => {
 
             <List sx={{ px: 2 }}>
                 {[
-                    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-                    { text: 'Content Library', icon: <FolderIcon />, path: '/' },
+                    { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
+                    { text: 'Content Library', icon: <FolderIcon />, path: '/library' },
                     { text: 'Team', icon: <PeopleIcon />, path: '/team' },
                     { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
                 ].map((item) => {

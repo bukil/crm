@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './components/Layout/MainLayout';
+import Dashboard from './pages/Dashboard';
 import ContentLibrary from './pages/ContentLibrary';
 import ExternalViewer from './pages/ExternalViewer';
 import { FileProvider } from './context/FileContext';
@@ -11,9 +12,8 @@ function App() {
       <CssBaseline />
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<ContentLibrary />} />
-          <Route path="dashboard" element={<Navigate to="/" replace />} />
-          {/* Add other dashboard routes here in future */}
+          <Route index element={<Dashboard />} />
+          <Route path="library" element={<ContentLibrary />} />
         </Route>
 
         {/* Standalone routes */}

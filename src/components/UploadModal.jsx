@@ -22,6 +22,7 @@ const UploadModal = ({ open, onClose }) => {
         title: '',
         description: '',
         tags: '',
+        expiryDate: '',
     });
     const [uploading, setUploading] = useState(false);
 
@@ -53,13 +54,14 @@ const UploadModal = ({ open, onClose }) => {
         const fileMetadata = {
             title: metadata.title,
             tags: metadata.tags.split(',').map(t => t.trim()).filter(Boolean),
+            expiryDate: metadata.expiryDate || null,
         };
 
         addFile(file, fileMetadata);
 
         // Reset local state (closing handled by context success if we wanted, but here we just wait/close)
         setFile(null);
-        setMetadata({ title: '', description: '', tags: '' });
+        setMetadata({ title: '', description: '', tags: '', expiryDate: '' });
         onClose();
     };
 
@@ -123,6 +125,15 @@ const UploadModal = ({ open, onClose }) => {
                             placeholder="Sales, Q4, Marketing"
                             value={metadata.tags}
                             onChange={(e) => setMetadata({ ...metadata, tags: e.target.value })}
+                            sx={{ mb: 2 }}
+                        />
+                        <TextField
+                            fullWidth
+                            type="date"
+                            label="Expiration Date (Optional)"
+                            InputLabelProps={{ shrink: true }}
+                            value={metadata.expiryDate}
+                            onChange={(e) => setMetadata({ ...metadata, expiryDate: e.target.value })}
                             sx={{ mb: 2 }}
                         />
                     </Box>

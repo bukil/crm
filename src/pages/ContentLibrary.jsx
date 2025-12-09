@@ -73,6 +73,12 @@ const ContentLibrary = () => {
         f.tags.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
+    const isExpired = (dateStr) => {
+        if (!dateStr) return false;
+        const today = new Date().toISOString().split('T')[0];
+        return dateStr < today;
+    };
+
     const handleShare = (file) => {
         setSelectedFile(file);
         setShareOpen(true);
@@ -202,6 +208,9 @@ const ContentLibrary = () => {
                                     </Box>
                                     <Typography variant="caption" color="text.secondary" display="block">
                                         v{file.version} • {file.size}
+                                        {isExpired(file.expiryDate) && (
+                                            <Chip label="Expired" size="small" color="error" sx={{ ml: 1, height: 20, fontSize: '0.65rem' }} />
+                                        )}
                                     </Typography>
                                     <Box sx={{ mt: 2, display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                                         {file.tags.slice(0, 3).map(tag => (
@@ -227,6 +236,7 @@ const ContentLibrary = () => {
                                         size="small"
                                         startIcon={<ShareIcon />}
                                         onClick={() => handleShare(file)}
+                                        disabled={isExpired(file.expiryDate)}
                                         sx={{ borderColor: 'rgba(255,255,255,0.1)', color: 'text.secondary' }}
                                     >
                                         Share
@@ -279,7 +289,11 @@ const ContentLibrary = () => {
                                         </Box>
                                     </TableCell>
                                     <TableCell>
-                                        <Chip label="Active" size="small" sx={{ bgcolor: 'rgba(16, 185, 129, 0.1)', color: '#10b981', fontWeight: 600, height: 24 }} />
+                                        {isExpired(file.expiryDate) ? (
+                                            <Chip label="Expired" size="small" color="error" sx={{ height: 24, fontWeight: 600 }} />
+                                        ) : (
+                                            <Chip label="Active" size="small" sx={{ bgcolor: 'rgba(16, 185, 129, 0.1)', color: '#10b981', fontWeight: 600, height: 24 }} />
+                                        )}
                                     </TableCell>
                                     <TableCell>{file.size}</TableCell>
                                     <TableCell>{file.date}</TableCell>
@@ -312,11 +326,11 @@ const ContentLibrary = () => {
                     }
                 }}
             >
-                <MenuItem onClick={() => handleDownload(menuFile)}>
+                <MenuItem onClick={() => handleDownload(menuFile)} disabled={menuFile && isExpired(menuFile.expiryDate)}>
                     <ListItemIcon><DownloadIcon fontSize="small" sx={{ color: 'text.secondary' }} /></ListItemIcon>
                     <ListItemText>Download</ListItemText>
                 </MenuItem>
-                <MenuItem onClick={() => { handleShare(menuFile); handleMenuClose(); }}>
+                <MenuItem onClick={() => { handleShare(menuFile); handleMenuClose(); }} disabled={menuFile && isExpired(menuFile.expiryDate)}>
                     <ListItemIcon><ShareIcon fontSize="small" sx={{ color: 'text.secondary' }} /></ListItemIcon>
                     <ListItemText>Share</ListItemText>
                 </MenuItem>
