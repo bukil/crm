@@ -66,36 +66,39 @@ export const FileProvider = ({ children }) => {
     }, [files]);
 
     const addFile = (fileObj, metadata) => {
-        setUploading(true);
+        return new Promise((resolve) => {
+            setUploading(true);
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const content = e.target.result;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
 
-            // Calculate size roughly
-            const sizeInBytes = fileObj.size;
-            let sizeStr = sizeInBytes + ' B';
-            if (sizeInBytes > 1024 * 1024) sizeStr = (sizeInBytes / (1024 * 1024)).toFixed(1) + ' MB';
-            else if (sizeInBytes > 1024) sizeStr = (sizeInBytes / 1024).toFixed(1) + ' KB';
+                // Calculate size roughly
+                const sizeInBytes = fileObj.size;
+                let sizeStr = sizeInBytes + ' B';
+                if (sizeInBytes > 1024 * 1024) sizeStr = (sizeInBytes / (1024 * 1024)).toFixed(1) + ' MB';
+                else if (sizeInBytes > 1024) sizeStr = (sizeInBytes / 1024).toFixed(1) + ' KB';
 
-            const newFile = {
-                id: Math.random().toString(36).substr(2, 9),
-                title: metadata.title || fileObj.name,
-                type: fileObj.name.split('.').pop().toLowerCase(),
-                size: sizeStr,
-                uploadedBy: 'You',
-                date: new Date().toISOString().split('T')[0],
-                tags: metadata.tags,
-                folder: 'Unsorted',
-                version: 'v1.0',
-                expiryDate: metadata.expiryDate,
-                content: content // DataURL
+                const newFile = {
+                    id: Math.random().toString(36).substr(2, 9),
+                    title: metadata.title || fileObj.name,
+                    type: fileObj.name.split('.').pop().toLowerCase(),
+                    size: sizeStr,
+                    uploadedBy: 'You',
+                    date: new Date().toISOString().split('T')[0],
+                    tags: metadata.tags,
+                    folder: 'Unsorted',
+                    version: 'v1.0',
+                    expiryDate: metadata.expiryDate,
+                    content: content // DataURL
+                };
+
+                setFiles((prev) => [newFile, ...prev]);
+                setUploading(false);
+                resolve(newFile);
             };
-
-            setFiles((prev) => [newFile, ...prev]);
-            setUploading(false);
-        };
-        reader.readAsDataURL(fileObj);
+            reader.readAsDataURL(fileObj);
+        });
     };
 
     const deleteFile = (id) => {
@@ -110,7 +113,8 @@ export const FileProvider = ({ children }) => {
         const baseUrl = window.location.origin + (import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL);
         // Ensure no double slash
         const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-        return `${cleanBase}/view/${fileId}?permission=${settings.permission}`;
+        // Use HashRouter syntax /#/
+        return `${cleanBase}/#/view/${fileId}?permission=${settings.permission}`;
     };
 
     const downloadFile = (file) => {

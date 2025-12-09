@@ -31,6 +31,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useFiles } from '../context/FileContext';
 import UploadModal from '../components/UploadModal';
+import ShareModal from '../components/ShareModal';
 
 const FileIconComponent = ({ type }) => {
     switch (type) {
@@ -77,6 +78,8 @@ const Dashboard = () => {
     const { files } = useFiles();
     const navigate = useNavigate();
     const [uploadOpen, setUploadOpen] = useState(false);
+    const [shareOpen, setShareOpen] = useState(false);
+    const [sharedFile, setSharedFile] = useState(null);
 
     const isExpired = (dateStr) => {
         if (!dateStr) return false;
@@ -280,7 +283,19 @@ const Dashboard = () => {
                 </Grid>
             </Grid>
 
-            <UploadModal open={uploadOpen} onClose={() => setUploadOpen(false)} />
+            <UploadModal
+                open={uploadOpen}
+                onClose={() => setUploadOpen(false)}
+                onUploadSuccess={(file) => {
+                    setSharedFile(file);
+                    setShareOpen(true);
+                }}
+            />
+            <ShareModal
+                open={shareOpen}
+                onClose={() => setShareOpen(false)}
+                file={sharedFile}
+            />
         </Box >
     );
 };

@@ -38,11 +38,7 @@ const DesignRationale = () => {
                     3. <b>Visual Hierarchy</b>: We used strict grid alignments and premium spacing (Material UI spacing of 3) to create a sense of order and calm, essential for a complex AI platform.
                 </Section>
 
-                <Section title="Sales Enablement – Content Upload & Sharing Feature">
-                    For the core upload and sharing feature, we prioritized <b>frictionless input</b>.
-                    The "Upload Modal" handles metadata collection (expiration, tags) in a single step rather than a wizard, respecting the user's time.
-                    The File Context state management ensures that as soon as a file is uploaded, it is instantly available in the "Recent Collateral" list interactions, mimicking the real-time responsiveness expected of a modern React application.
-                </Section>
+
 
                 <Section title="How did you design permissions? Why view/download? Why external link vs internal?">
                     <b>Permissions Strategy:</b> We adopted a "Least Privilege" defaults approach. By default, links are "View Only". This protects sensitive IP while allowing rapid sharing.

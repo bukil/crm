@@ -15,7 +15,7 @@ import {
 import { CloudUpload as CloudUploadIcon } from '@mui/icons-material';
 import { useFiles } from '../context/FileContext';
 
-const UploadModal = ({ open, onClose }) => {
+const UploadModal = ({ open, onClose, onUploadSuccess }) => {
     const { addFile } = useFiles();
     const [file, setFile] = useState(null);
     const [metadata, setMetadata] = useState({
@@ -47,7 +47,7 @@ const UploadModal = ({ open, onClose }) => {
         }
     };
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
         if (!file) return;
 
         // Pass real file object and metadata to context
@@ -57,12 +57,16 @@ const UploadModal = ({ open, onClose }) => {
             expiryDate: metadata.expiryDate || null,
         };
 
-        addFile(file, fileMetadata);
+        const newFile = await addFile(file, fileMetadata);
 
         // Reset local state (closing handled by context success if we wanted, but here we just wait/close)
         setFile(null);
         setMetadata({ title: '', description: '', tags: '', expiryDate: '' });
+
         onClose();
+        if (onUploadSuccess && newFile) {
+            onUploadSuccess(newFile);
+        }
     };
 
     return (
@@ -157,6 +161,7 @@ const UploadModal = ({ open, onClose }) => {
 UploadModal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    onUploadSuccess: PropTypes.func,
 };
 
 export default UploadModal;
