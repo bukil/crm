@@ -130,7 +130,7 @@ export const FileProvider = ({ children }) => {
         // Ensure no double slash
         const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
         // Use HashRouter syntax /#/
-        return `${cleanBase}/#/view/${fileId}?permission=${settings.permission}`;
+        return `${cleanBase}/#/share?id=${fileId}&permission=${settings.permission}`;
     };
 
     const downloadFile = (file) => {

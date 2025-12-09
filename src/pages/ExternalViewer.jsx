@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
     Box,
     Typography,
@@ -14,8 +14,8 @@ import { CloudDownload as CloudDownloadIcon, Visibility as VisibilityIcon, Error
 import { useFiles } from '../context/FileContext';
 
 const ExternalViewer = () => {
-    const { fileId } = useParams();
     const [searchParams] = useSearchParams();
+    const fileId = searchParams.get('id');
     const { getFileById, downloadFile } = useFiles();
 
     const permission = searchParams.get('permission') || 'view';

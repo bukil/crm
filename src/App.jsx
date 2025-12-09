@@ -19,7 +19,7 @@ function App() {
         </Route>
 
         {/* Standalone routes */}
-        <Route path="/view/:fileId" element={<ExternalViewer />} />
+        <Route path="/share" element={<ExternalViewer />} />
 
         {/* Redirect for convenience during dev if base path is involved */}
         <Route path="*" element={<Navigate to="/" replace />} />
