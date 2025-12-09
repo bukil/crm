@@ -126,11 +126,15 @@ export const FileProvider = ({ children }) => {
     };
 
     const generateShareLink = (fileId, settings) => {
-        const baseUrl = window.location.origin + (import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL);
-        // Ensure no double slash
-        const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-        // Use HashRouter syntax /#/
-        return `${cleanBase}/#/share?id=${fileId}&permission=${settings.permission}`;
+        // Robust way to get the full app URL excluding the hash
+        const url_obj = new URL(window.location.href);
+        const origin = url_obj.origin;
+        const pathname = url_obj.pathname;
+
+        // Remove trailing slash from pathname if present to avoid double slash
+        const cleanPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+
+        return `${origin}${cleanPath}/#/share?id=${fileId}&permission=${settings.permission}`;
     };
 
     const downloadFile = (file) => {
