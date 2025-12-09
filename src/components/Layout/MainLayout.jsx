@@ -24,7 +24,8 @@ import {
     Settings as SettingsIcon,
     Notifications as NotificationsIcon,
     Search as SearchIcon,
-    Bolt as BoltIcon
+    Bolt as BoltIcon,
+    Description as DescriptionIcon
 } from '@mui/icons-material';
 
 const drawerWidth = 260; // Slightly wider for premium feel
@@ -55,8 +56,7 @@ const MainLayout = () => {
                 {[
                     { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
                     { text: 'Content Library', icon: <FolderIcon />, path: '/library' },
-                    { text: 'Team', icon: <PeopleIcon />, path: '/team' },
-                    { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
+                    { text: 'Design Rationale', icon: <DescriptionIcon />, path: '/rationale' },
                 ].map((item) => {
                     const isSelected = location.pathname === item.path || (item.path === '/' && location.pathname === '/crm/');
                     return (
