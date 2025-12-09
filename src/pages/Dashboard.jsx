@@ -161,8 +161,8 @@ const Dashboard = () => {
             </Box>
 
             {/* Main Content Area */}
-            {/* Recent Content */}
             <Grid container spacing={3} alignItems="stretch">
+                {/* Recent Content */}
                 <Grid item xs={12} md={9} sx={{ display: 'flex', flexDirection: 'column', width: '100%', minWidth: 0 }}>
                     <Card sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                         <CardContent sx={{ flexGrow: 1 }}>
