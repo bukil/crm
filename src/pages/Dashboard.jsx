@@ -43,7 +43,7 @@ const FileIconComponent = ({ type }) => {
 };
 
 const StatCard = ({ title, value, change, icon: Icon, color }) => (
-    <Card sx={{ height: '100%', minHeight: '140px', width: '100%', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+    <Card sx={{ aspectRatio: '1/1', width: '100%', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
         <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, width: '100%' }}>
                 <Avatar sx={{ bgcolor: `${color}15`, color: color, width: 48, height: 48 }}>
@@ -62,10 +62,10 @@ const StatCard = ({ title, value, change, icon: Icon, color }) => (
                 )}
             </Box>
             <Box>
-                <Typography variant="h4" fontWeight="bold" sx={{ mb: 0.5 }}>
+                <Typography variant="h4" fontWeight="bold" sx={{ mb: 0.5 }} noWrap>
                     {value}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" noWrap>
                     {title}
                 </Typography>
             </Box>
@@ -121,8 +121,8 @@ const Dashboard = () => {
 
 
             {/* Unified Dashboard Grid */}
-            <Grid container spacing={3} alignItems="stretch">
-                <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', minWidth: 0 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }, gap: 3, mb: 3 }}>
+                <Box sx={{ minWidth: 0 }}>
                     <StatCard
                         title="Total Views"
                         value="2,543"
@@ -130,8 +130,8 @@ const Dashboard = () => {
                         icon={VisibilityIcon}
                         color="#3b82f6"
                     />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', minWidth: 0 }}>
+                </Box>
+                <Box sx={{ minWidth: 0 }}>
                     <StatCard
                         title="Downloads"
                         value="856"
@@ -139,8 +139,8 @@ const Dashboard = () => {
                         icon={DownloadIcon}
                         color="#10b981"
                     />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', minWidth: 0 }}>
+                </Box>
+                <Box sx={{ minWidth: 0 }}>
                     <StatCard
                         title="Active Assets"
                         value={files.length}
@@ -148,8 +148,8 @@ const Dashboard = () => {
                         icon={FileIcon}
                         color="#f59e0b"
                     />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', minWidth: 0 }}>
+                </Box>
+                <Box sx={{ minWidth: 0 }}>
                     <StatCard
                         title="Engagement Rate"
                         value="68%"
@@ -157,10 +157,12 @@ const Dashboard = () => {
                         icon={TrendingUpIcon}
                         color="#8b5cf6"
                     />
-                </Grid>
+                </Box>
+            </Box>
 
-                {/* Main Content Area */}
-                {/* Recent Content */}
+            {/* Main Content Area */}
+            {/* Recent Content */}
+            <Grid container spacing={3} alignItems="stretch">
                 <Grid item xs={12} md={9} sx={{ display: 'flex', flexDirection: 'column', width: '100%', minWidth: 0 }}>
                     <Card sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                         <CardContent sx={{ flexGrow: 1 }}>
